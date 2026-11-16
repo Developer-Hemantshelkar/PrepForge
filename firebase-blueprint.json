@@ -1,0 +1,214 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated fresher candidate profile, target stack preferences, and mastered concept IDs.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Firebase Auth UID of the user."
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Display name of the candidate."
+        },
+        "email": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 150,
+          "description": "Verified email address of the user."
+        },
+        "targetRole": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "Target fresher role such as Full-Stack Java Developer."
+        },
+        "targetStacks": {
+          "type": "array",
+          "description": "Selected tech stacks for focused preparation."
+        },
+        "masteredConcepts": {
+          "type": "array",
+          "description": "List of concept IDs marked as interview-ready."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server last update timestamp."
+        }
+      },
+      "required": [
+        "uid",
+        "displayName",
+        "email",
+        "targetRole",
+        "targetStacks",
+        "masteredConcepts",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "PracticeAttempt": {
+      "title": "PracticeAttempt",
+      "description": "Recorded quiz, timed test module, coding challenge, or behavioral practice attempt.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Unique attempt ID."
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Owner Firebase Auth UID."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["quiz", "test-module", "coding", "behavioral"],
+          "description": "Category of practice activity."
+        },
+        "stack": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Target tech stack identifier."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "Title of the quiz, test module, challenge, or question."
+        },
+        "score": {
+          "type": "number",
+          "description": "Percentage or achieved score (0-100)."
+        },
+        "maxScore": {
+          "type": "number",
+          "description": "Maximum possible score (1-100)."
+        },
+        "durationSec": {
+          "type": "number",
+          "description": "Elapsed duration in seconds."
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "Short evaluation summary or feedback note."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when attempt was recorded."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "type",
+        "stack",
+        "title",
+        "score",
+        "maxScore",
+        "durationSec",
+        "summary",
+        "createdAt"
+      ]
+    },
+    "CareerDocument": {
+      "title": "CareerDocument",
+      "description": "Saved resume refinement, cover letter draft, or mock interview prep note.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Unique document ID."
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Owner Firebase Auth UID."
+        },
+        "docType": {
+          "type": "string",
+          "enum": ["resume-review", "cover-letter", "prep-note"],
+          "description": "Document type."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "Document title."
+        },
+        "targetRole": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "Target role or company."
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 15000,
+          "description": "Markdown or plain text content."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "docType",
+        "title",
+        "targetRole",
+        "content",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/UserProfile"
+      },
+      "description": "User profile, target tech stacks, and concept mastery progress."
+    },
+    "/users/{userId}/attempts/{attemptId}": {
+      "schema": {
+        "$ref": "#/entities/PracticeAttempt"
+      },
+      "description": "User quiz, test module, coding, and behavioral attempt history."
+    },
+    "/users/{userId}/careerDocs/{docId}": {
+      "schema": {
+        "$ref": "#/entities/CareerDocument"
+      },
+      "description": "User saved resume feedback, cover letters, and interview prep notes."
+    }
+  }
+}

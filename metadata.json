@@ -1,0 +1,6 @@
+{
+  "name": "PrepForge",
+  "description": "Fresher software developer interview preparation workbench with interview-ready concept short answers, tech-stack filtered quizzes and test modules, AI-evaluated coding & behavioral practice, resume studio, and personal growth tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
